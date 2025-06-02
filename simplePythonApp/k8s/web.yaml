@@ -1,33 +1,52 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: web
+  name: simplepythonapp
 spec:
   ports:
     - port: 8080
       name: http
   type: LoadBalancer
   selector:
-    app: web
+    app: simplepythonapp
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web
+  name: simplepythonapp
 spec:
   selector:
     matchLabels:
-      app: web
+      app: simplepythonapp
   template:
     metadata:
       labels:
-        app: web
+        app: simplepythonapp
     spec:
       containers:
-        - name: web
+        - name: simplepythonapp
           image: emanum/k8splayground-simplepythonapp
           env:
             - name: PORT
               value: "8080"
           ports:
             - containerPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: simplepythonapp-http
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+spec:
+  rules:
+    - host: simplepythonapp.127.0.0.1.sslip.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: simplepythonapp-svc
+                port:
+                  number: 8080

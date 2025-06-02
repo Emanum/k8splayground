@@ -1,0 +1,20 @@
+# default values are here https://github.com/hashicorp/vault-helm/blob/main/values.yaml
+# Doc: https://developer.hashicorp.com/vault/docs/deploy/kubernetes/helm/configuration
+
+
+global:
+  # The namespace to deploy to. Defaults to the `helm` installation namespace.
+  namespace: ""
+
+  # TLS for end-to-end encrypted transport
+  tlsDisable: true
+
+
+server:
+  ingress:
+    enabled: true
+    ingressClassName: "traefik"
+#    annotations:
+#      traefik.ingress.kubernetes.io/router.entrypoints: web
+    hosts:
+      - host: "vault.127.0.0.1.sslip.io"
