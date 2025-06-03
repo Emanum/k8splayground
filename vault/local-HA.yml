@@ -11,13 +11,11 @@ global:
 
 
 server:
-#  ha:
-#    enabled: true
-#    replicas: 1
+  ha:
+    enabled: true
+    replicas: 3
   ingress:
     enabled: true
     ingressClassName: "traefik"
-#    annotations:
-#      traefik.ingress.kubernetes.io/router.entrypoints: web
     hosts:
-      - host: "vault.127.0.0.1.sslip.io"
+      - host: "vault.127-0-0-1.sslip.io"
